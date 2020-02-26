@@ -1,8 +1,8 @@
-package pl.potat0x.nomock.sampleapp;
+package pl.potat0x.nomock.examples.bookapp;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface TestRepository extends CrudRepository<TestEntity, Long> {
+public interface BookRepository extends CrudRepository<BookEntity, Long> {
 }

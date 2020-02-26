@@ -12,8 +12,13 @@ public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
     private long nextId = 1;
 
     @Override
-    public <S extends T> S save(S s) {
-        return null;
+    public <S extends T> S save(S entity) {
+        if (!hasId(entity)) {
+            setNextId(entity);
+        }
+
+        repository.put(EntityRipper.<ID>getEntityId(entity).get(), entity);
+        return entity;
     }
 
     @Override
@@ -64,5 +69,13 @@ public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
     @Override
     public void deleteAll() {
 
+    }
+
+    private <S extends T> void setNextId(S entity) {
+        EntityRipper.setEntityId(entity, nextId++);
+    }
+
+    private <S extends T> boolean hasId(S entity) {
+        return EntityRipper.getEntityId(entity).isPresent();
     }
 }

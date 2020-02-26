@@ -5,35 +5,20 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-class TypicalEntity {
+class NoGettersAndSettersEntity {
 
     @Id
-    private Long id;
+    public Long id;
 
-    TypicalEntity(Long id) {
+    public NoGettersAndSettersEntity(Long id) {
         this.id = id;
-    }
-
-    void setId(Long id) {
-        this.id = id;
-    }
-
-    Long getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return "TypicalEntity{" +
-                "id=" + id +
-                '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TypicalEntity that = (TypicalEntity) o;
+        NoGettersAndSettersEntity that = (NoGettersAndSettersEntity) o;
         return Objects.equals(id, that.id);
     }
 

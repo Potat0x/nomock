@@ -1,4 +1,4 @@
-package pl.potat0x.nomock.sampleapp;
+package pl.potat0x.nomock.examples.bookapp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,20 +7,28 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-class TestEntity {
+public class BookEntity {
+    /*
+    This class is used to test EntityRipper, so must be public.
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
-    public TestEntity() {
+    public BookEntity() {
     }
 
-    public TestEntity(String name) {
+    public BookEntity(String name) {
         this.name = name;
     }
 
-    public TestEntity(Long id, String name) {
+    public BookEntity(Long id) {
+        this.id = id;
+    }
+
+    public BookEntity(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -29,7 +37,7 @@ class TestEntity {
         return id;
     }
 
-    public TestEntity setId(Long id) {
+    public BookEntity setId(Long id) {
         this.id = id;
         return this;
     }
@@ -38,7 +46,7 @@ class TestEntity {
         return name;
     }
 
-    public TestEntity setName(String name) {
+    public BookEntity setName(String name) {
         this.name = name;
         return this;
     }
@@ -47,8 +55,8 @@ class TestEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TestEntity testEntity = (TestEntity) o;
-        return Objects.equals(id, testEntity.id);
+        BookEntity that = (BookEntity) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
@@ -58,9 +66,9 @@ class TestEntity {
 
     @Override
     public String toString() {
-        return "TestEnt{" +
+        return "BookEntity{" +
                 "id=" + id +
-                ", name=" + name +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

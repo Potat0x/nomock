@@ -1,28 +1,25 @@
 package pl.potat0x.nomock.inmemoryrepository;
 
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.util.Optional;
 
 final class EntityRipper {
-    public static void setEntityId(Object entity, Long id) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public static void setEntityId(Object entity, Long id) {
         getFieldAnnotatedAsId(entity)
-                .ifPresentOrElse(field -> setFieldViaSetter(entity, field, id),
+                .ifPresentOrElse(field -> setFieldValue(entity, field, id),
                         () -> {
-                            throw new InMemoryCrudRepositoryException("No setter");
+                            throw new InMemoryCrudRepositoryException("@Id field not found");
                         });
     }
 
-    static Optional<Long> getEntityId(Object entity) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    static <ID> Optional<ID> getEntityId(Object entity) {
         return getFieldAnnotatedAsId(entity)
-                .map(field -> readFieldViaGetter(entity, field));
+                .map(field -> readFieldValue(entity, field));
     }
 
-    private static Optional<Field> getFieldAnnotatedAsId(Object entity) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private static Optional<Field> getFieldAnnotatedAsId(Object entity) {
         for (Field field : entity.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(javax.persistence.Id.class)) {
                 return Optional.of(field);
@@ -31,19 +28,25 @@ final class EntityRipper {
         return Optional.empty();
     }
 
-    private static Long readFieldViaGetter(Object object, Field field) {
+    private static <ID> ID readFieldValue(Object object, Field field) {
         try {
-            Method getter = getGetter(object, field.getName());
-            return (Long) getter.invoke(object);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            if (field.canAccess(object)) {
+                return (ID) field.get(object);
+            } else {
+                return (ID) getGetter(object, field.getName()).invoke(object);
+            }
+        } catch (Exception e) {
             throw new InMemoryCrudRepositoryException(e);
         }
     }
 
-    private static void setFieldViaSetter(Object object, Field field, Object value) {
+    private static void setFieldValue(Object object, Field field, Object value) {
         try {
-            Method setter = getSetter(object, field.getName());
-            setter.invoke(object, value);
+            if (field.canAccess(object)) {
+                field.set(object, value);
+            } else {
+                getSetter(object, field.getName()).invoke(object, value);
+            }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new InMemoryCrudRepositoryException(e);
         }
@@ -59,14 +62,5 @@ final class EntityRipper {
 
     private static String capitalizeFirstLetter(String string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1);
-    }
-
-    private static void printFieldInfo(Field field) {
-        AnnotatedType annotatedType = field.getAnnotatedType();
-        Type type = annotatedType.getType();
-        int modifiers = field.getModifiers();
-        System.out.println(Modifier.toString(modifiers));
-        String fieldName = field.getName();
-        System.out.println("EntityRipper: " + type.getTypeName() + " " + fieldName);
     }
 }
