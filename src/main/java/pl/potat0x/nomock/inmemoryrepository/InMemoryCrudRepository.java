@@ -9,7 +9,7 @@ import java.util.Optional;
 public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     private final Map<ID, T> repository = new HashMap<>();
-    private long nextId = 1;
+    private final IdGenerator idGenerator = new IdGenerator();
 
     @Override
     public <S extends T> S save(S entity) {
@@ -72,7 +72,7 @@ public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
     }
 
     private <S extends T> void setNextId(S entity) {
-        EntityRipper.setEntityId(entity, nextId += 10);
+        EntityRipper.setEntityId(entity, idGenerator.nextId());
     }
 
     private <S extends T> boolean hasId(S entity) {
