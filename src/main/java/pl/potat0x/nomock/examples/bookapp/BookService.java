@@ -17,7 +17,6 @@ class BookService {
     @Autowired
     BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-//        this.bookRepository = new InMemoryBookRepository();
     }
 
     List<BookDto> getAllBooks() {

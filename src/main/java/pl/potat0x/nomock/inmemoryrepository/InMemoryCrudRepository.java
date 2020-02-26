@@ -72,7 +72,7 @@ public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
     }
 
     private <S extends T> void setNextId(S entity) {
-        EntityRipper.setEntityId(entity, nextId++);
+        EntityRipper.setEntityId(entity, nextId += 10);
     }
 
     private <S extends T> boolean hasId(S entity) {
