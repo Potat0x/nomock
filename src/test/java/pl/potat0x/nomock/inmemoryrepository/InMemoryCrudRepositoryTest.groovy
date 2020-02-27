@@ -14,14 +14,29 @@ class InMemoryCrudRepositoryTest extends Specification {
     }
 
     def "Save"() {
-        given:
-        def entity = new BookEntity()
+        given: "entity with null ID"
+        def entity = new BookEntity("name")
 
         when:
-        println ""
-        then:
-        repository.save(entity) == entity
-        repository.save(entity) == entity
+        def savedEntityId = repository.save(entity).getId()
+
+        then: "ID should be assigned to saved entity"
+        savedEntityId != null
+
+        and: "should be possible to find saved entity by ID"
+        repository.findById(savedEntityId).get().getId() == savedEntityId
+        repository.findById(savedEntityId).get().getName() == "name"
+
+        when: "entity is updated and saved again"
+        entity.setName("new name")
+        def savedAgainEntityId = repository.save(entity).getId()
+
+        then: "ID should not be modified"
+        savedAgainEntityId == savedEntityId
+
+        and: "entity in repository should be updated"
+        repository.findById(savedEntityId).get().getId() == savedEntityId
+        repository.findById(savedEntityId).get().getName() == "new name"
     }
 
     def "SaveAll"() {
@@ -52,5 +67,14 @@ class InMemoryCrudRepositoryTest extends Specification {
     }
 
     def "TestDeleteAll"() {
+    }
+
+    def "Should generate numeric ID for saved objects"() {
+        given:
+        def book1 = repository.save(new BookEntity("book 1"))
+        def book2 = repository.save(new BookEntity("book 2"))
+
+        expect:
+        book1.id != book2.id
     }
 }

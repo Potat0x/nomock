@@ -5,19 +5,32 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     private final Map<ID, T> repository = new HashMap<>();
-    private final IdGenerator idGenerator = new IdGenerator();
+    private final EntityRipper<T, ID> entityRipper;
+    private final IdGenerator<ID> idGenerator;
+
+    public InMemoryCrudRepository(Supplier<ID> idSupplier) {
+        this.entityRipper = new EntityRipper<>(idSupplier.get().getClass());
+        this.idGenerator = new IdGenerator<>(idSupplier);
+    }
+
+    public InMemoryCrudRepository(ID initialId, UnaryOperator<ID> idSuccessorFunction) {
+        this.entityRipper = new EntityRipper<>(initialId.getClass());
+        this.idGenerator = new IdGenerator<>(initialId, idSuccessorFunction);
+    }
 
     @Override
     public <S extends T> S save(S entity) {
-        if (!hasId(entity)) {
-            setNextId(entity);
-        }
-
-        repository.put(EntityRipper.<ID>getEntityId(entity).get(), entity);
+        entityRipper.getEntityId(entity)
+                .ifPresentOrElse(
+                        currentId -> repository.put(currentId, entity),
+                        () -> repository.put(assignIdToEntity(entity), entity)
+                );
         return entity;
     }
 
@@ -28,7 +41,7 @@ public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     @Override
     public Optional<T> findById(ID id) {
-        return Optional.empty();
+        return Optional.ofNullable(repository.get(id));
     }
 
     @Override
@@ -71,11 +84,9 @@ public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     }
 
-    private <S extends T> void setNextId(S entity) {
-        EntityRipper.setEntityId(entity, idGenerator.nextId());
-    }
-
-    private <S extends T> boolean hasId(S entity) {
-        return EntityRipper.getEntityId(entity).isPresent();
+    private ID assignIdToEntity(T entity) {
+        ID id = idGenerator.nextId();
+        entityRipper.setEntityId(entity, id);
+        return id;
     }
 }

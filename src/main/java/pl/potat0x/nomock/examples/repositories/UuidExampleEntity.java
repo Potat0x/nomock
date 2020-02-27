@@ -1,43 +1,32 @@
-package pl.potat0x.nomock.examples.bookapp;
+package pl.potat0x.nomock.examples.repositories;
+
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
-public final class BookEntity {
-    /*
-    This class is used in examples - must be public.
-     */
+final class UuidExampleEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
     private String name;
 
-    public BookEntity() {
-    }
-
-    public BookEntity(String name) {
-        this.name = name;
-    }
-
-    public BookEntity(Long id) {
-        this.id = id;
-    }
-
-    public BookEntity(Long id, String name) {
+    public UuidExampleEntity(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
+    public UuidExampleEntity(String name) {
+        this.name = name;
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public BookEntity setId(Long id) {
+    public UuidExampleEntity setId(UUID id) {
         this.id = id;
         return this;
     }
@@ -46,7 +35,7 @@ public final class BookEntity {
         return name;
     }
 
-    public BookEntity setName(String name) {
+    public UuidExampleEntity setName(String name) {
         this.name = name;
         return this;
     }
@@ -55,7 +44,7 @@ public final class BookEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookEntity that = (BookEntity) o;
+        UuidExampleEntity that = (UuidExampleEntity) o;
         return Objects.equals(id, that.id);
     }
 
@@ -66,7 +55,7 @@ public final class BookEntity {
 
     @Override
     public String toString() {
-        return "BookEntity{" +
+        return "UuidExampleEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

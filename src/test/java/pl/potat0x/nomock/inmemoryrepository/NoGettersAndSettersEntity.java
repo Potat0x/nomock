@@ -5,12 +5,12 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-class NoGettersAndSettersEntity {
+final class NoGettersAndSettersEntity {
 
     @Id
-    public Long id;
+    Integer id;
 
-    public NoGettersAndSettersEntity(Long id) {
+    NoGettersAndSettersEntity(Integer id) {
         this.id = id;
     }
 
