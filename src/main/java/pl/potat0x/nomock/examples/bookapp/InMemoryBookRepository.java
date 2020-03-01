@@ -6,7 +6,7 @@ import static pl.potat0x.nomock.inmemoryrepository.IdGenerators.IncrementalLongI
 
 public final class InMemoryBookRepository extends InMemoryCrudRepository<BookEntity, Long> implements BookRepository {
     public InMemoryBookRepository() {
-        super(0L, IncrementalLongIdGenerator); //use one of predefined generators
-        //super(0L, id -> id + 1); //or define your own generator
+        super(1L, IncrementalLongIdGenerator); //use one of predefined generators
+//        super(1L, id -> id + 1); //or define your own generator
     }
 }
