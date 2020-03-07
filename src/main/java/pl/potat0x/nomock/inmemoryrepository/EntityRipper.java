@@ -8,13 +8,13 @@ final class EntityRipper<T, ID> {
 
     private final Class<?> idType;
 
-    public EntityRipper(Class<?> entityIdType) {
+    EntityRipper(Class<?> entityIdType) {
         this.idType = entityIdType;
     }
 
     void setEntityId(T entity, ID id) {
         getFieldAnnotatedAsId(entity)
-                .ifPresentOrElse(field -> setFieldValue(entity, field, id),
+                .ifPresentOrElse(field -> setFieldValue(entity, field, id, idType),
                         () -> {
                             throw new InMemoryCrudRepositoryException("@Id field not found");
                         });
@@ -22,10 +22,39 @@ final class EntityRipper<T, ID> {
 
     Optional<ID> getEntityId(T entity) {
         return getFieldAnnotatedAsId(entity)
-                .map(field -> readFieldValue(entity, field));
+                .map(field -> (ID) getFieldValue(entity, field));
     }
 
-    private Optional<Field> getFieldAnnotatedAsId(T entity) {
+    static Object getFieldValue(Object object, String fieldName) {
+        try {
+            Field field = object.getClass().getDeclaredField(fieldName);
+            return getFieldValue(object, field);
+        } catch (Exception e) {
+            throw new InMemoryCrudRepositoryException(e);
+        }
+    }
+
+    private static Object getFieldValue(Object object, Field field) {
+        try {
+            if (field.canAccess(object)) {
+                return field.get(object);
+            } else {
+                return getter(object, field.getName()).invoke(object);
+            }
+        } catch (Exception e) {
+            throw new InMemoryCrudRepositoryException(e);
+        }
+    }
+
+    static boolean checkIfFieldIsString(Object object, String fieldName) {
+        try {
+            return object.getClass().getDeclaredField(fieldName).getType().equals(String.class);
+        } catch (Exception e) {
+            throw new InMemoryCrudRepositoryException(e);
+        }
+    }
+
+    private Optional<Field> getFieldAnnotatedAsId(Object entity) {
         for (Field field : entity.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(javax.persistence.Id.class)) {
                 return Optional.of(field);
@@ -34,39 +63,27 @@ final class EntityRipper<T, ID> {
         return Optional.empty();
     }
 
-    private ID readFieldValue(T object, Field field) {
-        try {
-            if (field.canAccess(object)) {
-                return (ID) field.get(object);
-            } else {
-                return (ID) getter(object, field.getName()).invoke(object);
-            }
-        } catch (Exception e) {
-            throw new InMemoryCrudRepositoryException(e);
-        }
-    }
-
-    private void setFieldValue(T object, Field field, ID value) {
+    private static void setFieldValue(Object object, Field field, Object value, Class<?> parameterType) {
         try {
             if (field.canAccess(object)) {
                 field.set(object, value);
             } else {
-                setter(object, field.getName()).invoke(object, value);
+                setter(object, field.getName(), parameterType).invoke(object, value);
             }
         } catch (Exception e) {
             throw new InMemoryCrudRepositoryException(e);
         }
     }
 
-    private Method setter(T object, String fieldName) throws NoSuchMethodException {
-        return object.getClass().getDeclaredMethod("set" + capitalizeFirstLetter(fieldName), idType);
+    private static Method setter(Object object, String fieldName, Class<?> parameterType) throws NoSuchMethodException {
+        return object.getClass().getDeclaredMethod("set" + capitalizeFirstLetter(fieldName), parameterType);
     }
 
-    private Method getter(T object, String fieldName) throws NoSuchMethodException {
+    private static Method getter(Object object, String fieldName) throws NoSuchMethodException {
         return object.getClass().getDeclaredMethod("get" + capitalizeFirstLetter(fieldName));
     }
 
-    private String capitalizeFirstLetter(String string) {
+    private static String capitalizeFirstLetter(String string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 }

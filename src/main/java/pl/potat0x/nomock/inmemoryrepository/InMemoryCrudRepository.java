@@ -3,7 +3,7 @@ package pl.potat0x.nomock.inmemoryrepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 
 public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
-    private final Map<ID, T> repository = new HashMap<>();
+    private final Map<ID, T> repository = new LinkedHashMap<>();
     private final EntityRipper<T, ID> entityRipper;
     private final IdGenerator<ID> idGenerator;
 

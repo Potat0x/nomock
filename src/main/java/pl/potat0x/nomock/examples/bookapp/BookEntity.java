@@ -16,8 +16,20 @@ public final class BookEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String prop;
 
     public BookEntity() {
+    }
+
+    public BookEntity(Long id, String name, String prop) {
+        this.id = id;
+        this.name = name;
+        this.prop = prop;
+    }
+
+    public BookEntity(String name, String prop) {
+        this.name = name;
+        this.prop = prop;
     }
 
     public BookEntity(String name) {
@@ -37,18 +49,24 @@ public final class BookEntity {
         return id;
     }
 
-    public BookEntity setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public BookEntity setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
+    }
+
+    public String getProp() {
+        return prop;
+    }
+
+    public void setProp(String prop) {
+        this.prop = prop;
     }
 
     @Override
@@ -69,6 +87,7 @@ public final class BookEntity {
         return "BookEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", prop='" + prop + '\'' +
                 '}';
     }
 }

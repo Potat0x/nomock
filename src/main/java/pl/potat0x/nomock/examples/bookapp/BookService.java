@@ -34,7 +34,7 @@ class BookService {
     }
 
     Optional<BookDto> updateBook(Long id, BookDto book) {
-        BookEntity updatedBook = new BookEntity(id, book.getName());
+        BookEntity updatedBook = new BookEntity(id, book.getName(), book.getProp());
         return bookRepository.findById(id)
                 .map(bookEntity -> bookRepository.save(updatedBook))
                 .map(this::bookEntityToDto);
@@ -50,10 +50,10 @@ class BookService {
     }
 
     private BookDto bookEntityToDto(BookEntity bookEntity) {
-        return new BookDto(bookEntity.getId(), bookEntity.getName());
+        return new BookDto(bookEntity.getId(), bookEntity.getName(), bookEntity.getProp());
     }
 
     private BookEntity bookDtoToEntity(BookDto bookDto) {
-        return new BookEntity(bookDto.getId(), bookDto.getName());
+        return new BookEntity(bookDto.getId(), bookDto.getName(), bookDto.getProp());
     }
 }
