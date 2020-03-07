@@ -1,4 +1,4 @@
-package pl.potat0x.nomock.inmemoryrepository;
+package pl.potat0x.nomock.inmemoryrepository.reflection;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

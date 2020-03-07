@@ -1,15 +1,16 @@
-package pl.potat0x.nomock.inmemoryrepository;
+package pl.potat0x.nomock.inmemoryrepository.reflection;
 
 import org.springframework.data.domain.Sort;
+import pl.potat0x.nomock.inmemoryrepository.InMemoryRepositoryException;
 
 import java.util.List;
 
-import static pl.potat0x.nomock.inmemoryrepository.EntityRipper.checkIfFieldIsString;
-import static pl.potat0x.nomock.inmemoryrepository.EntityRipper.getFieldValue;
+import static pl.potat0x.nomock.inmemoryrepository.reflection.EntityRipper.checkIfFieldIsString;
+import static pl.potat0x.nomock.inmemoryrepository.reflection.EntityRipper.getFieldValue;
 
-final class ReflectiveComparator {
+public final class ReflectiveComparator {
 
-    static int compareObjectsByMultipleFields(Object object1, Object object2, List<Sort.Order> orders) {
+    public static int compareObjectsByMultipleFields(Object object1, Object object2, List<Sort.Order> orders) {
         int cmp = 0;
         for (Sort.Order order : orders) {
             Object obj1Field = getFieldValue(object1, order.getProperty());

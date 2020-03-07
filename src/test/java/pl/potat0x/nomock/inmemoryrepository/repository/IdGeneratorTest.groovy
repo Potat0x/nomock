@@ -1,4 +1,4 @@
-package pl.potat0x.nomock.inmemoryrepository
+package pl.potat0x.nomock.inmemoryrepository.repository
 
 import org.mockito.internal.util.collections.Sets
 import spock.lang.Specification

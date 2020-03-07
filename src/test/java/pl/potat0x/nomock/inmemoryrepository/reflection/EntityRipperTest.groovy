@@ -1,6 +1,7 @@
-package pl.potat0x.nomock.inmemoryrepository
+package pl.potat0x.nomock.inmemoryrepository.reflection
 
 import pl.potat0x.nomock.examples.bookapp.BookEntity
+import pl.potat0x.nomock.inmemoryrepository.InMemoryRepositoryException
 import spock.lang.Specification
 import spock.lang.Unroll
 

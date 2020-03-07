@@ -1,4 +1,4 @@
-package pl.potat0x.nomock.inmemoryrepository
+package pl.potat0x.nomock.inmemoryrepository.repository
 
 import org.springframework.dao.EmptyResultDataAccessException
 import pl.potat0x.nomock.examples.bookapp.BookEntity

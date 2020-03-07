@@ -1,4 +1,4 @@
-package pl.potat0x.nomock.inmemoryrepository
+package pl.potat0x.nomock.inmemoryrepository.repository
 
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort

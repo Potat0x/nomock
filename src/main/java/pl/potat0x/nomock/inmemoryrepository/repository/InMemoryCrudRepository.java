@@ -1,7 +1,8 @@
-package pl.potat0x.nomock.inmemoryrepository;
+package pl.potat0x.nomock.inmemoryrepository.repository;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.repository.CrudRepository;
+import pl.potat0x.nomock.inmemoryrepository.reflection.EntityRipper;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

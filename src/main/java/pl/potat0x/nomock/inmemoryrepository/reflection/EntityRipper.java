@@ -1,18 +1,20 @@
-package pl.potat0x.nomock.inmemoryrepository;
+package pl.potat0x.nomock.inmemoryrepository.reflection;
+
+import pl.potat0x.nomock.inmemoryrepository.InMemoryRepositoryException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-final class EntityRipper<T, ID> {
+public final class EntityRipper<T, ID> {
 
     private final Class<?> idType;
 
-    EntityRipper(Class<?> entityIdType) {
+    public EntityRipper(Class<?> entityIdType) {
         this.idType = entityIdType;
     }
 
-    void setEntityId(T entity, ID id) {
+    public void setEntityId(T entity, ID id) {
         getFieldAnnotatedAsId(entity)
                 .ifPresentOrElse(field -> setFieldValue(entity, field, id, idType),
                         () -> {
@@ -20,7 +22,7 @@ final class EntityRipper<T, ID> {
                         });
     }
 
-    Optional<ID> getEntityId(T entity) {
+    public Optional<ID> getEntityId(T entity) {
         return getFieldAnnotatedAsId(entity)
                 .map(field -> (ID) getFieldValue(entity, field));
     }

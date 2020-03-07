@@ -1,4 +1,4 @@
-package pl.potat0x.nomock.inmemoryrepository;
+package pl.potat0x.nomock.inmemoryrepository.repository;
 
 import java.util.UUID;
 import java.util.function.Supplier;
