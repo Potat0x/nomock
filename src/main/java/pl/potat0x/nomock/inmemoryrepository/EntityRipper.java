@@ -16,7 +16,7 @@ final class EntityRipper<T, ID> {
         getFieldAnnotatedAsId(entity)
                 .ifPresentOrElse(field -> setFieldValue(entity, field, id, idType),
                         () -> {
-                            throw new InMemoryCrudRepositoryException("@Id field not found");
+                            throw new InMemoryRepositoryException("@Id field not found");
                         });
     }
 
@@ -30,7 +30,7 @@ final class EntityRipper<T, ID> {
             Field field = object.getClass().getDeclaredField(fieldName);
             return getFieldValue(object, field);
         } catch (Exception e) {
-            throw new InMemoryCrudRepositoryException(e);
+            throw new InMemoryRepositoryException(e);
         }
     }
 
@@ -42,7 +42,7 @@ final class EntityRipper<T, ID> {
                 return getter(object, field.getName()).invoke(object);
             }
         } catch (Exception e) {
-            throw new InMemoryCrudRepositoryException(e);
+            throw new InMemoryRepositoryException(e);
         }
     }
 
@@ -50,7 +50,7 @@ final class EntityRipper<T, ID> {
         try {
             return object.getClass().getDeclaredField(fieldName).getType().equals(String.class);
         } catch (Exception e) {
-            throw new InMemoryCrudRepositoryException(e);
+            throw new InMemoryRepositoryException(e);
         }
     }
 
@@ -71,7 +71,7 @@ final class EntityRipper<T, ID> {
                 setter(object, field.getName(), parameterType).invoke(object, value);
             }
         } catch (Exception e) {
-            throw new InMemoryCrudRepositoryException(e);
+            throw new InMemoryRepositoryException(e);
         }
     }
 

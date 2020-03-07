@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 public class Config {
 
     @Bean
-    public BookRepository bookRepository() {
-        return new InMemoryBookRepository();
+    public CrudBookRepository bookRepository() {
+        return new InMemoryCrudBookRepository();
     }
 }

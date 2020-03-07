@@ -77,19 +77,13 @@ final class ReflectiveComparator {
 
     private static void assertNotNull(Object object1, Object object2) {
         if (object1 == null || object2 == null) {
-            throw new ReflectiveComparatorException("Both objects should be not null");
+            throw new InMemoryRepositoryException("Both objects should not be null");
         }
     }
 
     private static void assertThatExactlyOneObjectIsNull(Object object1, Object object2) {
         if ((object1 == null && object2 == null) || (object1 != null && object2 != null)) {
-            throw new ReflectiveComparatorException("Exactly one object should be null");
-        }
-    }
-
-    private static class ReflectiveComparatorException extends RuntimeException {
-        public ReflectiveComparatorException(String message) {
-            super(message);
+            throw new InMemoryRepositoryException("Exactly one object should be null");
         }
     }
 }

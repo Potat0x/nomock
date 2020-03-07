@@ -10,7 +10,6 @@ final class IdGenerator<ID> {
 
     IdGenerator(ID startId, UnaryOperator<ID> generator) {
         this.nextId = startId;
-
         this.generator = generator;
     }
 

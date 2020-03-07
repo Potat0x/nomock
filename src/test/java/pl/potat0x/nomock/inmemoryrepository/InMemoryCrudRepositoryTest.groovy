@@ -2,18 +2,18 @@ package pl.potat0x.nomock.inmemoryrepository
 
 import org.springframework.dao.EmptyResultDataAccessException
 import pl.potat0x.nomock.examples.bookapp.BookEntity
-import pl.potat0x.nomock.examples.bookapp.BookRepository
-import pl.potat0x.nomock.examples.bookapp.InMemoryBookRepository
+import pl.potat0x.nomock.examples.bookapp.CrudBookRepository
+import pl.potat0x.nomock.examples.bookapp.InMemoryCrudBookRepository
 import spock.lang.Shared
 import spock.lang.Specification
 
 class InMemoryCrudRepositoryTest extends Specification {
 
     @Shared
-    BookRepository repository
+    CrudBookRepository repository
 
     def setup() {
-        repository = new InMemoryBookRepository()
+        repository = new InMemoryCrudBookRepository()
     }
 
     def "Save"() {

@@ -12,10 +12,10 @@ import java.util.stream.StreamSupport;
 @Service
 class BookService {
 
-    private final BookRepository bookRepository;
+    private final CrudBookRepository bookRepository;
 
     @Autowired
-    BookService(BookRepository bookRepository) {
+    BookService(CrudBookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 

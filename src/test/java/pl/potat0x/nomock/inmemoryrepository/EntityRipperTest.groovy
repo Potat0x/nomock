@@ -41,6 +41,6 @@ class EntityRipperTest extends Specification {
         new EntityRipper<>().setEntityId("this is not entity", 123L)
 
         then:
-        thrown InMemoryCrudRepositoryException
+        thrown InMemoryRepositoryException
     }
 }

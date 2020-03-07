@@ -3,15 +3,15 @@ package pl.potat0x.nomock.inmemoryrepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import pl.potat0x.nomock.examples.bookapp.BookEntity
-import pl.potat0x.nomock.examples.bookapp.BookRepository
 import pl.potat0x.nomock.examples.bookapp.InMemoryPagingAndSortingBookRepository
+import pl.potat0x.nomock.examples.bookapp.PagingAndSortingBookRepository
 import spock.lang.Specification
 
 class InMemoryPagingAndSortingRepositoryTest extends Specification {
 
     def "FindAll(Pageable)"() {
         given:
-        BookRepository repository = new InMemoryPagingAndSortingBookRepository()
+        PagingAndSortingBookRepository repository = new InMemoryPagingAndSortingBookRepository()
 
         def books = [
                 new BookEntity("b0"),
@@ -47,7 +47,7 @@ class InMemoryPagingAndSortingRepositoryTest extends Specification {
 
     def "FindAll(Sort)"() {
         given:
-        BookRepository repository = new InMemoryPagingAndSortingBookRepository()
+        PagingAndSortingBookRepository repository = new InMemoryPagingAndSortingBookRepository()
 
         def books = [
                 new BookEntity(null, null),
@@ -134,7 +134,7 @@ class InMemoryPagingAndSortingRepositoryTest extends Specification {
 
     def "FindAll(Sort) case sensitive"() {
         given:
-        BookRepository repository = new InMemoryPagingAndSortingBookRepository()
+        PagingAndSortingBookRepository repository = new InMemoryPagingAndSortingBookRepository()
 
         def books = [
                 new BookEntity("B", "d"),
@@ -184,7 +184,7 @@ class InMemoryPagingAndSortingRepositoryTest extends Specification {
 
     def "Should combine paging and sorting"() {
         given:
-        BookRepository repository = new InMemoryPagingAndSortingBookRepository()
+        PagingAndSortingBookRepository repository = new InMemoryPagingAndSortingBookRepository()
 
         def books = [
                 new BookEntity("b3"),
@@ -216,7 +216,7 @@ class InMemoryPagingAndSortingRepositoryTest extends Specification {
 
     def "Should sort entities by numeric field"() {
         given:
-        BookRepository repository = new InMemoryPagingAndSortingBookRepository()
+        PagingAndSortingBookRepository repository = new InMemoryPagingAndSortingBookRepository()
         repository.saveAll([new BookEntity("b0"), new BookEntity("b1"), new BookEntity("b2")])
 
         when:
@@ -233,7 +233,7 @@ class InMemoryPagingAndSortingRepositoryTest extends Specification {
 
     def "Should sort entities respecting null policy"() {
         given:
-        BookRepository repository = new InMemoryPagingAndSortingBookRepository()
+        PagingAndSortingBookRepository repository = new InMemoryPagingAndSortingBookRepository()
         repository.saveAll([
                 new BookEntity("b0"),
                 new BookEntity(null),
