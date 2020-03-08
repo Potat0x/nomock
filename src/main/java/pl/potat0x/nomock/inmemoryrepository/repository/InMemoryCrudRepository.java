@@ -16,16 +16,14 @@ import java.util.stream.StreamSupport;
 public class InMemoryCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     private final Map<ID, T> repository = new LinkedHashMap<>();
-    private final EntityRipper<T, ID> entityRipper;
+    private final EntityRipper<T, ID> entityRipper = new EntityRipper<>();
     private final IdGenerator<ID> idGenerator;
 
     public InMemoryCrudRepository(Supplier<ID> idSupplier) {
-        this.entityRipper = new EntityRipper<>(idSupplier.get().getClass());
         this.idGenerator = new IdGenerator<>(idSupplier);
     }
 
     public InMemoryCrudRepository(ID initialId, UnaryOperator<ID> idSuccessorFunction) {
-        this.entityRipper = new EntityRipper<>(initialId.getClass());
         this.idGenerator = new IdGenerator<>(initialId, idSuccessorFunction);
     }
 

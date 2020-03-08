@@ -24,7 +24,7 @@ class EntityRipperTest extends Specification {
     @Unroll
     def "Should set value to @Id annotated field"() {
         when:
-        new EntityRipper<>(newId.getClass()).setEntityId(entity, newId)
+        new EntityRipper<>().setEntityId(entity, newId)
 
         then:
         entity == expectedEntity
