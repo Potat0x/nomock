@@ -2,18 +2,20 @@ package pl.potat0x.nomock.inmemoryrepository.repository
 
 import org.springframework.dao.EmptyResultDataAccessException
 import pl.potat0x.nomock.examples.bookapp.BookEntity
-import pl.potat0x.nomock.examples.bookapp.CrudBookRepository
-import pl.potat0x.nomock.examples.bookapp.InMemoryCrudBookRepository
+import pl.potat0x.nomock.examples.bookapp.InMemoryJpaBookRepository
+import pl.potat0x.nomock.examples.bookapp.JpaBookRepository
 import spock.lang.Shared
 import spock.lang.Specification
 
-class InMemoryCrudRepositoryTest extends Specification {
+import javax.persistence.EntityNotFoundException
+
+class InMemoryJpaRepositoryTest extends Specification {
 
     @Shared
-    CrudBookRepository repository
+    JpaBookRepository repository
 
     def setup() {
-        repository = new InMemoryCrudBookRepository()
+        repository = new InMemoryJpaBookRepository()
     }
 
     def "Save"() {
@@ -186,7 +188,7 @@ class InMemoryCrudRepositoryTest extends Specification {
         repository.findAll().containsAll(savedEntities[0], savedEntities[3])
     }
 
-    def "DeleteAll()"() {
+    def "DeleteAll"() {
         given:
         repository.saveAll([new BookEntity("name1"), new BookEntity("name2")])
 
@@ -195,6 +197,25 @@ class InMemoryCrudRepositoryTest extends Specification {
 
         then:
         repository.findAll().isEmpty()
+    }
+
+    def "GetOne"() {
+        given:
+        BookEntity savedEntity = repository.save(new BookEntity("name"))
+        Long savedEntityId = savedEntity.getId()
+
+        when:
+        BookEntity fetchedEntity = repository.getOne(savedEntityId)
+
+        then:
+        fetchedEntity.getId() == savedEntity.getId()
+        fetchedEntity.getName() == savedEntity.getName()
+
+        when: "entity with given ID does not exists"
+        repository.getOne(savedEntityId + 1)
+
+        then:
+        thrown EntityNotFoundException
     }
 
     def "Repository should thrown IllegalArgumentException when null is passed to repository method"() {
@@ -217,7 +238,8 @@ class InMemoryCrudRepositoryTest extends Specification {
                 { -> repository.deleteById(null) },
                 { -> repository.delete(null) },
                 { -> repository.deleteAll([null]) },
-                { -> repository.deleteAll([new BookEntity("name"), null]) }
+                { -> repository.deleteAll([new BookEntity("name"), null]) },
+                { -> repository.getOne(null) },
         ]
     }
 

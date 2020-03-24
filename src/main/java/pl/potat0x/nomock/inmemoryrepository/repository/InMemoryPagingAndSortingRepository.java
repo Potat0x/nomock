@@ -68,7 +68,7 @@ public class InMemoryPagingAndSortingRepository<T, ID> extends InMemoryCrudRepos
         return pageable.getPageNumber() * pageable.getPageSize();
     }
 
-    private static <T> List<T> iterableToList(Iterable<T> iterable) {
+    protected static <T> List<T> iterableToList(Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
     }

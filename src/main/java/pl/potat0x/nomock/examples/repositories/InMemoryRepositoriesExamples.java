@@ -1,8 +1,8 @@
 package pl.potat0x.nomock.examples.repositories;
 
 import pl.potat0x.nomock.examples.bookapp.BookEntity;
-import pl.potat0x.nomock.examples.bookapp.CrudBookRepository;
-import pl.potat0x.nomock.examples.bookapp.InMemoryCrudBookRepository;
+import pl.potat0x.nomock.examples.bookapp.InMemoryJpaBookRepository;
+import pl.potat0x.nomock.examples.bookapp.JpaBookRepository;
 
 final class InMemoryRepositoriesExamples {
     /*
@@ -18,10 +18,10 @@ final class InMemoryRepositoriesExamples {
     private static void example1() {
         System.out.println("Example 1: entity with Long identifier");
         // 1. Create in-memory repository class
-        // check out CrudBookRepository.java and InMemoryCrudBookRepository.java
+        // check out JpaBookRepository.java and InMemoryJpaBookRepository.java
 
         // 2. Create in-memory repository instance
-        CrudBookRepository repository = new InMemoryCrudBookRepository();
+        JpaBookRepository repository = new InMemoryJpaBookRepository();
 
         // 3. Use it
         BookEntity book1 = repository.save(new BookEntity("First book"));
