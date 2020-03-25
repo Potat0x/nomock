@@ -2,31 +2,36 @@ package pl.potat0x.nomock.examples.bookapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 class BookService {
 
-    private final CrudBookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
-    BookService(CrudBookRepository bookRepository) {
+    BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     List<BookDto> getAllBooks() {
-        return StreamSupport.stream(bookRepository.findAll().spliterator(), false)
+        return getAllBooks(Sort.unsorted());
+    }
+
+    List<BookDto> getAllBooks(Sort sort) {
+        return bookRepository.findAll(sort).stream()
                 .map(this::bookEntityToDto)
                 .collect(Collectors.toList());
     }
 
     Optional<BookDto> getBookById(Long id) {
-        return bookRepository.findById(id).map(this::bookEntityToDto);
+        return bookRepository.findById(id)
+                .map(this::bookEntityToDto);
     }
 
     BookDto createBook(BookDto book) {

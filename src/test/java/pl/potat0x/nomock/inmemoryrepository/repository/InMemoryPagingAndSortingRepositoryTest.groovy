@@ -3,8 +3,8 @@ package pl.potat0x.nomock.inmemoryrepository.repository
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import pl.potat0x.nomock.examples.bookapp.BookEntity
-import pl.potat0x.nomock.examples.bookapp.InMemoryPagingAndSortingBookRepository
-import pl.potat0x.nomock.examples.bookapp.PagingAndSortingBookRepository
+import pl.potat0x.nomock.examples.repositories.InMemoryPagingAndSortingBookRepository
+import pl.potat0x.nomock.examples.repositories.PagingAndSortingBookRepository
 import spock.lang.Specification
 
 class InMemoryPagingAndSortingRepositoryTest extends Specification {

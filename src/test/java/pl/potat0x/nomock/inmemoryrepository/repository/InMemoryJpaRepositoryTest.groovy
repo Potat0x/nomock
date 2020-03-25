@@ -2,8 +2,8 @@ package pl.potat0x.nomock.inmemoryrepository.repository
 
 import org.springframework.dao.EmptyResultDataAccessException
 import pl.potat0x.nomock.examples.bookapp.BookEntity
-import pl.potat0x.nomock.examples.bookapp.InMemoryJpaBookRepository
-import pl.potat0x.nomock.examples.bookapp.JpaBookRepository
+import pl.potat0x.nomock.examples.repositories.InMemoryJpaBookRepository
+import pl.potat0x.nomock.examples.repositories.JpaBookRepository
 import spock.lang.Shared
 import spock.lang.Specification
 

@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 public final class BookEntity {
     /*
-    This class is used in examples - must be public.
+    This entity is used in examples - must be public.
      */
 
     @Id

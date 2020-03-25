@@ -1,8 +1,6 @@
 package pl.potat0x.nomock.examples.repositories;
 
 import pl.potat0x.nomock.examples.bookapp.BookEntity;
-import pl.potat0x.nomock.examples.bookapp.InMemoryJpaBookRepository;
-import pl.potat0x.nomock.examples.bookapp.JpaBookRepository;
 
 final class InMemoryRepositoriesExamples {
     /*
