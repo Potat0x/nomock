@@ -1,16 +1,16 @@
 package pl.potat0x.nomock.examples.bookapp;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-class BookServiceTest {
+public class BookServiceTest {
 
     BookService bookService = new BookService(new InMemoryBookRepository());
 
     @Test
-    void inMemoryRepositoryDemo() {
+    public void inMemoryRepositoryDemo() {
         List.of(new BookDto("The Godfather"),
                 new BookDto("1984"),
                 new BookDto("Clean Code")

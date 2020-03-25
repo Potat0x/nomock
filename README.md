@@ -79,12 +79,12 @@ class InMemoryBookRepository extends InMemoryJpaRepository<BookEntity, Long> imp
 
 2. Pass instance of this class to service: [BookServiceTest.java](https://github.com/Potat0x/nomock/tree/master/src/test/java/pl/potat0x/nomock/examples/bookapp/BookServiceTest.java)
 ```java
-class BookServiceTest {
+public class BookServiceTest {
 
     BookService bookService = new BookService(new InMemoryBookRepository());
 
     @Test
-    void test() {
+    public test() {
         //...
     }
 }
